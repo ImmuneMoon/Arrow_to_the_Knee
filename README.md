@@ -1,52 +1,50 @@
 # Arrow to The Knee
 
-## Overview
-
-This mod is a fun crossover between Elden Ring and Skyrim, where getting hit with an arrow to the knee teleports you to Skyrim until you beat the main quest. It includes scripts to track the completion of the Skyrim main quest, manage saves, and handle transitions between games.
+This mod brings the world of Elden Ring into Skyrim, creating an epic crossover experience! Make sure you have both Skyrim Legendary Edition (LE) and Elden Ring installed to use this mod.
 
 ## Features
 
-- **Main Quest Tracking**: Tracks the completion of the Skyrim main quest and sets a global variable.
-- **Save Management**: Manages save files and integrates with the Lua script for additional functionality.
-- **Configuration File**: Allows customization of various settings via `config.txt`.
-- **Audio Integration**: Includes custom audio files for a richer experience.
-- **Convenient Launch**: Automatically handles launching Skyrim with SKSE if available.
-- **Auto-Update**: Prompts the user for an install directory and offers to auto-update scripts.
+- Elden Ring-inspired weapons, armor, and items.
+- Unique quests that blend the worlds of both games.
+- New music and sound effects.
 
-## Requirements
+## Installation Instructions
+
+### Prerequisites
 
 - **Skyrim Legendary Edition (LE)**
-- **Admin Privileges**: Required for installing SKSE and Lua.
+- **Elden Ring**
 
-## Installation
+### Steps to Install
 
-1. **Run the Setup Executable**:
-   - Download the `setup.exe` file.
-   - Double-click the `setup.exe` file to run the installer.
-   - Follow the on-screen instructions to install the mod:
-     - Enter your Skyrim install directory or press Enter to use the default directory.
-     - Enter your Elden Ring install directory or press Enter to use the default directory.
-     - Choose whether to update the scripts by entering 'y' or 'n'.
+1. **Download the Mod Files**:
+   - Ensure you have the following files and directories:
+     - `EldenRingArrowInTheKnee.esp`
+     - `config.txt`
+     - `audio/` (directory with music files)
+     - `scripts/` (directory with Lua scripts)
 
-2. **Activate the Mod**:
-   - Use your mod manager to activate `EldenRingArrowInTheKnee.esp`.
+2. **Run the Installer**:
+   - Execute the `setup.exe` installer provided with the mod files.
+   - Follow the prompts to select the install directories for Skyrim and Elden Ring.
 
-## Usage
+3. **Enable the Mod in Skyrim**:
+   - Launch Skyrim.
+   - In the launcher, go to **Data Files**.
+   - Ensure `EldenRingArrowInTheKnee.esp` is checked.
 
-- **Mod Activation**: Ensure the mod is activated in your mod manager.
-- **Save Management**: The Lua script will manage save files and check the completion of the Skyrim main quest.
-- **Gameplay**: Enjoy the crossover features and have fun!
+4. **Test the Mod**:
+   - Start Skyrim and load a saved game or start a new game.
+   - Verify that the mod is working by checking the new content (items, quests, etc.).
 
 ## Troubleshooting
 
-- **Script Compilation Issues**: Ensure all scripts are in the correct folder.
-- **Configuration Errors**: Double-check the `config.txt` file for any typos or incorrect paths.
+- **Mod Not Appearing**: Ensure that `EldenRingArrowInTheKnee.esp` is enabled in the **Data Files** section of the Skyrim launcher.
+- **Missing Files**: Verify that all required files and directories are in the correct locations.
+- **Script Errors**: Ensure that Lua scripts are correctly placed in the `scripts` directory for Elden Ring.
 
-## Credits
+## Contact
 
-- **Developed by**: [ImmuneMoon]
-- **Special Thanks**: To the Skyrim and Elden Ring communities for their support and inspiration.
+If you encounter any issues or have any questions, feel free to reach out to the mod creator.
 
-## License
-
-This mod is provided as-is and is free to use for non-commercial purposes. Please credit the original author if you distribute this mod.
+Enjoy your epic crossover adventure!

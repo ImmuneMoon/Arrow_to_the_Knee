@@ -1,0 +1,3 @@
+[MainQuest]
+QuestID=000361E2
+CompletionStage=200

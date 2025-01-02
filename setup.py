@@ -97,6 +97,7 @@ def main():
         copy_files(source_scripts_elden_ring, destination_scripts_elden_ring)
 
         messagebox.showinfo("Installation", "Setup completed successfully!")
+        root.destroy()  # Close the Tkinter window
 
     # GUI setup
     root = tk.Tk()

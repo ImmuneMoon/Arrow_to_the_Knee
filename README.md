@@ -24,10 +24,8 @@ This mod is a fun crossover between Elden Ring and Skyrim, where getting hit wit
 
 1. **Download the Mod Files**:
    - Ensure you have the following files and directories:
-     - `EldenRingArrowInTheKnee.esp`
-     - `config.txt`
-     - `audio/` (directory with music files)
-     - `Data/scripts/` (directory with Lua scripts)
+     Arrow to the Knee (1.0) Setup.exe
+     Arrow to the Knee Uninstaller.exe
 
 2. **Run the Installer**:
    - Execute the `Arrow to the Knee Setup.exe` installer provided with the mod files.

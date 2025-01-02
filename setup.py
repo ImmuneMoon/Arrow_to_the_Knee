@@ -100,7 +100,7 @@ def main():
 
     # GUI setup
     root = tk.Tk()
-    root.title("Elden Ring x Skyrim Crossover Mod Installer")
+    root.title("Elden Ring - Arrow to the Knee Mod Installer")
 
     # Requirement message
     requirement_message = (

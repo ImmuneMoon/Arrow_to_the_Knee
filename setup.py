@@ -52,13 +52,6 @@ def main():
         source_music = os.path.join(base_path, "audio")
         destination_music = os.path.join(install_dir_skyrim, "Data", "Music", "arrow to the knee 1.0")
 
-        # Debug information
-        print(f"source_esp: {source_esp}")
-        print(f"destination_esp: {destination_esp}")
-        print(f"source_config: {source_config}")
-        print(f"destination_config: {destination_config}")
-        print(f"source_music: {source_music}")
-
         # Check if the source files exist
         if not os.path.exists(source_esp):
             messagebox.showerror("Error", f"File not found: {source_esp}")
@@ -81,12 +74,7 @@ def main():
         
         # Define source and destination directories for Elden Ring
         source_scripts_elden_ring = os.path.join(base_path, "Data", "scripts")
-        # MOD NAME FOR ELDEN RING MOD FOLDER, NEEDS UPDATING w/ NEW VER: VER1.0 released 01-02-2025
         destination_scripts_elden_ring = os.path.join(install_dir_elden_ring, "mods", "arrow to the knee 1.0")
-
-        # Debug information
-        print(f"source_scripts_elden_ring: {source_scripts_elden_ring}")
-        print(f"destination_scripts_elden_ring: {destination_scripts_elden_ring}")
 
         # Check if the source Lua scripts exist
         if not os.path.exists(source_scripts_elden_ring):
@@ -101,7 +89,7 @@ def main():
 
     # GUI setup
     root = tk.Tk()
-    root.title("Elden Ring - Arrow to the Knee Mod Installer")
+    root.title("Elden Ring x Skyrim Crossover Mod Installer")
 
     # Requirement message
     requirement_message = (
@@ -130,3 +118,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

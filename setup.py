@@ -1,33 +1,47 @@
 import os
 import shutil
-import platform
 import zipfile
 import subprocess
 import urllib.request
 import tarfile
+import tkinter as tk
+from tkinter import messagebox, filedialog
 
 def download_file(url, dest):
     print(f"Downloading {url} to {dest}...")
-    urllib.request.urlretrieve(url, dest)
+    try:
+        urllib.request.urlretrieve(url, dest)
+        return True
+    except Exception as e:
+        print(f"Download failed: {e}")
+        return False
 
 def extract_zip_file(zip_path, extract_to):
     print(f"Extracting {zip_path}...")
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(extract_to)
 
+def manual_install_prompt(message):
+    print(message)
+    while True:
+        user_input = input("Press 'C' to continue after manual installation: ").strip().lower()
+        if user_input == 'c':
+            break
+
 def install_skse(skyrim_path):
-    skse_url = "http://skse.silverlock.org/download/skse_1_07_03.7z"
+    skse_url = "http://skse.silverlock.org/download/skse64_2_00_19.7z"  # Update this URL to the latest version
     skse_zip_path = "skse.7z"
     skse_extract_path = "skse"
 
-    # Download SKSE
-    download_file(skse_url, skse_zip_path)
-    
+    # Attempt to download SKSE
+    if not download_file(skse_url, skse_zip_path):
+        manual_install_prompt("Please manually download SKSE from http://skse.silverlock.org and place the .7z file in the current directory.")
+
     # Extract SKSE
     extract_zip_file(skse_zip_path, skse_extract_path)
 
     # Copy SKSE files to Skyrim directory
-    skse_files = ['skse_loader.exe', 'skse_steam_loader.dll', 'skse_1_9_32.dll']
+    skse_files = ['skse64_loader.exe', 'skse64_steam_loader.dll', 'skse64_2_00_19.dll']
     for file in skse_files:
         shutil.copy2(os.path.join(skse_extract_path, file), skyrim_path)
 
@@ -36,8 +50,9 @@ def install_lua():
     lua_tar_path = "lua.tar.gz"
     lua_extract_path = "lua"
 
-    # Download Lua
-    download_file(lua_url, lua_tar_path)
+    # Attempt to download Lua
+    if not download_file(lua_url, lua_tar_path):
+        manual_install_prompt("Please manually download Lua from https://www.lua.org and place the .tar.gz file in the current directory.")
 
     # Extract Lua
     with tarfile.open(lua_tar_path, "r:gz") as tar:
@@ -65,8 +80,8 @@ def extract_zip(src, dest):
 
 def update_scripts(install_dir):
     # Check if update is needed
-    update_needed = input("Do you want to update the scripts? (y/n): ").lower()
-    if update_needed == 'y':
+    update_needed = messagebox.askyesno("Update Scripts", "Do you want to update the scripts?")
+    if update_needed:
         # Define source and destination directories for Skyrim
         source_scripts_skyrim = os.path.join("scripts", "skyrim_LE")
         destination_scripts_skyrim = os.path.join(install_dir, "Skyrim", "Scripts")
@@ -80,9 +95,9 @@ def update_scripts(install_dir):
         # Extract source zip to Skyrim's directory
         extract_zip(source_zip_skyrim, destination_source_skyrim)
         
-        print("Skyrim scripts updated successfully!")
+        messagebox.showinfo("Update Scripts", "Skyrim scripts updated successfully!")
     else:
-        print("Skipping script update.")
+        messagebox.showinfo("Update Scripts", "Skipping script update.")
 
 def run_skyrim_launcher(skyrim_path):
     skse_loader_path = os.path.join(skyrim_path, "skse_loader.exe")
@@ -96,55 +111,82 @@ def run_skyrim_launcher(skyrim_path):
         subprocess.run([skyrim_launcher_path])
 
 def main():
-    # Prompt user for Skyrim install directory
-    install_dir_skyrim = input("Please enter your Skyrim install directory (default: C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim): ")
-    if not install_dir_skyrim:
-        install_dir_skyrim = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim"
-    
-    # Prompt user for Elden Ring install directory
-    install_dir_elden_ring = input("Please enter your Elden Ring install directory (default: C:\\Program Files (x86)\\Steam\\steamapps\\common\\Elden Ring): ")
-    if not install_dir_elden_ring:
-        install_dir_elden_ring = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Elden Ring"
 
-    # Install SKSE
-    install_skse(install_dir_skyrim)
+    def select_skyrim_dir():
+        path = filedialog.askdirectory(initialdir="/", title="Select Skyrim Install Directory")
+        skyrim_dir_entry.delete(0, tk.END)
+        skyrim_dir_entry.insert(0, path)
 
-    # Install Lua
-    install_lua()
+    def select_elden_ring_dir():
+        path = filedialog.askdirectory(initialdir="/", title="Select Elden Ring Install Directory")
+        elden_ring_dir_entry.delete(0, tk.END)
+        elden_ring_dir_entry.insert(0, path)
 
-    # Define source and destination directories for Skyrim
-    source_esp = os.path.join("Data", "EldenRingArrowInTheKnee.esp")
-    destination_esp = os.path.join(install_dir_skyrim, "EldenRingArrowInTheKnee.esp")
-    
-    source_config = os.path.join("Data", "config.txt")
-    destination_config = os.path.join(install_dir_skyrim, "config.txt")
-    
-    source_music = os.path.join("audio")
-    destination_music = os.path.join(install_dir_skyrim, "Music", "YourMod")
+    def install():
+        install_dir_skyrim = skyrim_dir_entry.get()
+        install_dir_elden_ring = elden_ring_dir_entry.get()
 
-    # Copy ESP file to Skyrim's directory
-    shutil.copy2(source_esp, destination_esp)
-    
-    # Copy config file to Skyrim's directory
-    shutil.copy2(source_config, destination_config)
-    
-    # Copy music files to Skyrim's Music directory
-    copy_files(source_music, destination_music)
-    
-    # Define source and destination directories for Elden Ring
-    source_scripts_elden_ring = os.path.join("scripts", "elden_ring")
-    destination_scripts_elden_ring = os.path.join(install_dir_elden_ring, "mods", "YourMod")
+        if not install_dir_skyrim or not install_dir_elden_ring:
+            messagebox.showerror("Error", "Please select both install directories.")
+            return
 
-    # Copy Lua scripts to Elden Ring's mod directory
-    copy_files(source_scripts_elden_ring, destination_scripts_elden_ring)
+        # Install SKSE
+        install_skse(install_dir_skyrim)
 
-    # Update scripts if needed
-    update_scripts(install_dir_skyrim)
+        # Install Lua
+        install_lua()
 
-    # Run Skyrim Launcher
-    run_skyrim_launcher(install_dir_skyrim)
-    
-    print("Setup completed successfully!")
+        # Define source and destination directories for Skyrim
+        source_esp = os.path.join("Data", "EldenRingArrowInTheKnee.esp")
+        destination_esp = os.path.join(install_dir_skyrim, "EldenRingArrowInTheKnee.esp")
+        
+        source_config = os.path.join("Data", "config.txt")
+        destination_config = os.path.join(install_dir_skyrim, "config.txt")
+        
+        source_music = os.path.join("audio")
+        destination_music = os.path.join(install_dir_skyrim, "Music", "YourMod")
+
+        # Copy ESP file to Skyrim's directory
+        shutil.copy2(source_esp, destination_esp)
+        
+        # Copy config file to Skyrim's directory
+        shutil.copy2(source_config, destination_config)
+        
+        # Copy music files to Skyrim's Music directory
+        copy_files(source_music, destination_music)
+        
+        # Define source and destination directories for Elden Ring
+        source_scripts_elden_ring = os.path.join("scripts", "elden_ring")
+        destination_scripts_elden_ring = os.path.join(install_dir_elden_ring, "mods", "YourMod")
+
+        # Copy Lua scripts to Elden Ring's mod directory
+        copy_files(source_scripts_elden_ring, destination_scripts_elden_ring)
+
+        # Update scripts if needed
+        update_scripts(install_dir_skyrim)
+
+        # Run Skyrim Launcher
+        run_skyrim_launcher(install_dir_skyrim)
+        
+        messagebox.showinfo("Installation", "Setup completed successfully!")
+
+    # GUI setup
+    root = tk.Tk()
+    root.title("Elden Ring x Skyrim Crossover Mod Installer")
+
+    tk.Label(root, text="Skyrim Install Directory:").grid(row=0, column=0, padx=10, pady=10)
+    skyrim_dir_entry = tk.Entry(root, width=50)
+    skyrim_dir_entry.grid(row=0, column=1, padx=10, pady=10)
+    tk.Button(root, text="Browse", command=select_skyrim_dir).grid(row=0, column=2, padx=10, pady=10)
+
+    tk.Label(root, text="Elden Ring Install Directory:").grid(row=1, column=0, padx=10, pady=10)
+    elden_ring_dir_entry = tk.Entry(root, width=50)
+    elden_ring_dir_entry.grid(row=1, column=1, padx=10, pady=10)
+    tk.Button(root, text="Browse", command=select_elden_ring_dir).grid(row=1, column=2, padx=10, pady=10)
+
+    tk.Button(root, text="Install", command=install).grid(row=2, column=0, columnspan=3, pady=20)
+
+    root.mainloop()
 
 if __name__ == "__main__":
     main()

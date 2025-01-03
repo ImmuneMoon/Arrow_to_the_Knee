@@ -35,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['E:\\Files\\elden ring - arrow to the knee mod\\Arrow_to_the_Knee\\icon.ico'],
+    icon=['icon.ico'],
 )

@@ -3,6 +3,10 @@ import shutil
 import sys
 import tkinter as tk
 from tkinter import messagebox, filedialog
+import logging
+
+# Configure logging
+logging.basicConfig(filename='installer_log.txt', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -11,7 +15,9 @@ def resource_path(relative_path):
         base_path = sys._MEIPASS
     except AttributeError:
         base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
+    full_path = os.path.join(base_path, relative_path)
+    logging.debug(f'Resource path: {relative_path} -> {full_path}')
+    return full_path
 
 def copy_files(src, dest):
     if not os.path.exists(dest):
@@ -29,11 +35,13 @@ def main():
         path = filedialog.askdirectory(initialdir="/", title="Select Skyrim Install Directory (e.g., C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim)")
         skyrim_dir_entry.delete(0, tk.END)
         skyrim_dir_entry.insert(0, path)
+        logging.debug(f'Skyrim directory selected: {path}')
 
     def select_elden_ring_dir():
         path = filedialog.askdirectory(initialdir="/", title="Select Elden Ring Install Directory (e.g., C:\\Program Files (x86)\\Steam\\steamapps\\common\\ELDEN RING)")
         elden_ring_dir_entry.delete(0, tk.END)
         elden_ring_dir_entry.insert(0, path)
+        logging.debug(f'Elden Ring directory selected: {path}')
 
     def show_context_menu(event, entry):
         context_menu = tk.Menu(root, tearoff=0)
@@ -48,6 +56,7 @@ def main():
 
         if not install_dir_skyrim or not install_dir_elden_ring:
             messagebox.showerror("Error", "Please select both install directories.")
+            logging.error("Both install directories were not selected.")
             return
 
         # Define source and destination directories for Skyrim
@@ -61,75 +70,87 @@ def main():
         destination_music = os.path.join(install_dir_skyrim, "Data", "Music", "arrow to the knee 1.0")
 
         # Check if the source files exist
-        print(f"Checking existence of {source_esp}")
+        logging.debug(f"Checking existence of {source_esp}: {os.path.exists(source_esp)}")
         if not os.path.exists(source_esp):
             messagebox.showerror("Error", f"File not found: {source_esp}")
+            logging.error(f"File not found: {source_esp}")
             return
-        print(f"Checking existence of {source_config}")
+        logging.debug(f"Checking existence of {source_config}: {os.path.exists(source_config)}")
         if not os.path.exists(source_config):
             messagebox.showerror("Error", f"File not found: {source_config}")
+            logging.error(f"File not found: {source_config}")
             return
-        print(f"Checking existence of {source_music}")
+        logging.debug(f"Checking existence of {source_music}: {os.path.exists(source_music)}")
         if not os.path.exists(source_music):
             messagebox.showerror("Error", f"Directory not found: {source_music}")
+            logging.error(f"Directory not found: {source_music}")
             return
 
         # Copy ESP file to Skyrim's Data directory
+        logging.debug(f"Copying {source_esp} to {destination_esp}")
         shutil.copy2(source_esp, destination_esp)
         
         # Copy config file to Skyrim's Data directory
+        logging.debug(f"Copying {source_config} to {destination_config}")
         shutil.copy2(source_config, destination_config)
         
         # Copy music files to Skyrim's Data/Music directory
+        logging.debug(f"Copying music files from {source_music} to {destination_music}")
         copy_files(source_music, destination_music)
         
         # Define source and destination directories for Elden Ring
 
         # Arrow to the knee hit detection
-        source_arrow_knee_detection_lua = resource_path("E:\\Files\\elden ring - arrow to the knee mod\\Arrow_to_the_Knee\\scripts\\elden_ring\\Arrow_knee_detection.lua")
+        source_arrow_knee_detection_lua = resource_path("scripts/elden_ring/Arrow_knee_detection.lua")
         destination_arrow_knee_detection_lua = os.path.join(install_dir_elden_ring, "mods", "arrow to the knee 1.0", "Arrow_knee_detection.lua")
         
-        source_arrow_knee_detection_luac = resource_path("E:\\Files\\elden ring - arrow to the knee mod\\Arrow_to_the_Knee\\scripts\\elden_ring\\Arrow_knee_detection.luac")
+        source_arrow_knee_detection_luac = resource_path("scripts/elden_ring/Arrow_knee_detection.luac")
         destination_arrow_knee_detection_luac = os.path.join(install_dir_elden_ring, "mods", "arrow to the knee 1.0", "Arrow_knee_detection.luac")
         
         # Save_management 
-        source_save_management_lua = resource_path("E:\\Files\\elden ring - arrow to the knee mod\\Arrow_to_the_Knee\\scripts\\elden_ring\\Save_management.lua")
+        source_save_management_lua = resource_path("scripts/elden_ring/Save_management.lua")
         destination_save_management_lua = os.path.join(install_dir_elden_ring, "mods", "arrow to the knee 1.0", "Save_management.lua")
         
-        source_save_management_luac = resource_path("E:\\Files\\elden ring - arrow to the knee mod\\Arrow_to_the_Knee\\scripts\\elden_ring\\Save_management.luac")
+        source_save_management_luac = resource_path("scripts/elden_ring/Save_management.luac")
         destination_save_management_luac = os.path.join(install_dir_elden_ring, "mods", "arrow to the knee 1.0", "Save_management.luac")
         
         # Skyrim_transition
-        source_skyrim_transition_lua = resource_path("E:\\Files\\elden ring - arrow to the knee mod\\Arrow_to_the_Knee\\scripts\\elden_ring\\Skyrim_transition.lua")
+        source_skyrim_transition_lua = resource_path("scripts/elden_ring/Skyrim_transition.lua")
         destination_skyrim_transition_lua = os.path.join(install_dir_elden_ring, "mods", "arrow to the knee 1.0", "Skyrim_transition.lua")
         
-        source_skyrim_transition_luac = resource_path("E:\\Files\\elden ring - arrow to the knee mod\\Arrow_to_the_Knee\\scripts\\elden_ring\\Skyrim_transition.luac")
+        source_skyrim_transition_luac = resource_path("scripts/elden_ring/Skyrim_transition.luac")
         destination_skyrim_transition_luac = os.path.join(install_dir_elden_ring, "mods", "arrow to the knee 1.0", "Skyrim_transition.luac")
 
         # Check if the source Lua scripts and compiled Lua scripts exist
-        print(f"Checking existence of {source_arrow_knee_detection_lua}")
+        logging.debug(f"Checking existence of {source_arrow_knee_detection_lua}: {os.path.exists(source_arrow_knee_detection_lua)}")
         if not os.path.exists(source_arrow_knee_detection_lua):
             messagebox.showerror("Error", f"File not found: {source_arrow_knee_detection_lua}")
+            logging.error(f"File not found: {source_arrow_knee_detection_lua}")
             return
-        print(f"Checking existence of {source_arrow_knee_detection_luac}")
+        logging.debug(f"Checking existence of {source_arrow_knee_detection_luac}: {os.path.exists(source_arrow_knee_detection_luac)}")
         if not os.path.exists(source_arrow_knee_detection_luac):
             messagebox.showerror("Error", f"File not found: {source_arrow_knee_detection_luac}")
+            logging.error(f"File not found: {source_arrow_knee_detection_luac}")
             return
-        print(f"Checking existence of {source_save_management_lua}")
+        logging.debug(f"Checking existence of {source_save_management_lua}: {os.path.exists(source_save_management_lua)}")
         if not os.path.exists(source_save_management_lua):
             messagebox.showerror("Error", f"File not found: {source_save_management_lua}")
+            logging.error(f"File not found: {source_save_management_lua}")
             return
-        print(f"Checking existence of {source_save_management_luac}")
+        logging.debug(f"Checking existence of {source_save_management_luac}: {os.path.exists(source_save_management_luac)}")
         if not os.path.exists(source_save_management_luac):
             messagebox.showerror("Error", f"File not found: {source_save_management_luac}")
+            logging.error(f"File not found: {source_save_management_luac}")
             return
-        print(f"Checking existence of {source_skyrim_transition_lua}")
+        logging.debug(f"Checking existence of {source_skyrim_transition_lua}: {os.path.exists(source_skyrim_transition_lua)}")
         if not os.path.exists(source_skyrim_transition_lua):
             messagebox.showerror("Error", f"File not found: {source_skyrim_transition_lua}")
+            logging.error(f"File not found: {source_skyrim_transition_lua}")
             return
-        print(f"Checking existence of {source_skyrim_transition_luac}")
+        logging.debug(f"Checking existence of {source_skyrim_transition_luac}: {os.path.exists(source_skyrim_transition_luac)}")
         if not os.path.exists(source_skyrim_transition_luac):
             messagebox.showerror("Error", f"File not found: {source_skyrim_transition_luac}")
+            logging.error(f"File not found: {source_skyrim_transition_luac}")
             return
 
         # Ensure destination directories exist

@@ -5,3 +5,16 @@ D:\Program Files (x86)\Steam\steamapps\common\ELDEN RING
 
 to create exe:
 pyinstaller --onefile --windowed --add-data "Data;Data" --add-data "audio;audio" --add-data "Data/scripts;scripts" --icon="E:\Files\elden ring - arrow to the knee mod\Arrow_to_the_Knee\icon.ico" --name "Arrow to the Knee (1.0) Setup" setup.py
+
+
+If spec file made:
+
+pyinstaller installer.spec
+
+or
+
+pyinstaller installer_and_uninstaller.spec
+
+pyinstaller [insert filename.spec]
+
+spec file needs to be in the parent directory with the .py install script**

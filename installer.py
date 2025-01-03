@@ -60,17 +60,14 @@ def main():
             return
 
         # Define source and destination directories for Skyrim
-        source_esp = resource_path("source/EldenRingArrowInTheKnee.esp")
+        source_esp = resource_path("Data/scripts/EldenRingArrowInTheKnee.esp")
         destination_esp = os.path.join(install_dir_skyrim, "Data", "EldenRingArrowInTheKnee.esp")
         
-        source_config = resource_path("source/config.txt")
+        source_config = resource_path("Data/scripts/config.txt")
         destination_config = os.path.join(install_dir_skyrim, "Data", "config.txt")
         
         source_music = resource_path("audio")
         destination_music = os.path.join(install_dir_skyrim, "Data", "Music", "arrow to the knee 1.0")
-        
-        source_bat = resource_path("scripts/skyrim_LE/skyrim_launcher.bat")
-        destination_bat = os.path.join(install_dir_elden_ring, "skyrim_launcher.bat")
 
         # Check if the source files exist
         logging.debug(f"Checking existence of {source_esp}: {os.path.exists(source_esp)}")
@@ -88,11 +85,6 @@ def main():
             messagebox.showerror("Error", f"Directory not found: {source_music}")
             logging.error(f"Directory not found: {source_music}")
             return
-        logging.debug(f"Checking existence of {source_bat}: {os.path.exists(source_bat)}")
-        if not os.path.exists(source_bat):
-            messagebox.showerror("Error", f"File not found: {source_bat}")
-            logging.error(f"File not found: {source_bat}")
-            return
 
         # Copy ESP file to Skyrim's Data directory
         logging.debug(f"Copying {source_esp} to {destination_esp}")
@@ -106,12 +98,7 @@ def main():
         logging.debug(f"Copying music files from {source_music} to {destination_music}")
         copy_files(source_music, destination_music)
         
-        # Copy skyrim_launcher.bat to Elden Ring's root directory
-        logging.debug(f"Copying {source_bat} to {destination_bat}")
-        shutil.copy2(source_bat, destination_bat)
-        
         # Define source and destination directories for Elden Ring
-
         # Arrow to the knee hit detection
         source_arrow_knee_detection_lua = resource_path("scripts/elden_ring/Arrow_knee_detection.lua")
         destination_arrow_knee_detection_lua = os.path.join(install_dir_elden_ring, "mods", "arrow to the knee 1.0", "Arrow_knee_detection.lua")
@@ -119,14 +106,14 @@ def main():
         source_arrow_knee_detection_luac = resource_path("scripts/elden_ring/Arrow_knee_detection.luac")
         destination_arrow_knee_detection_luac = os.path.join(install_dir_elden_ring, "mods", "arrow to the knee 1.0", "Arrow_knee_detection.luac")
         
-        # Save_management 
+        # Save management 
         source_save_management_lua = resource_path("scripts/elden_ring/Save_management.lua")
         destination_save_management_lua = os.path.join(install_dir_elden_ring, "mods", "arrow to the knee 1.0", "Save_management.lua")
         
         source_save_management_luac = resource_path("scripts/elden_ring/Save_management.luac")
         destination_save_management_luac = os.path.join(install_dir_elden_ring, "mods", "arrow to the knee 1.0", "Save_management.luac")
         
-        # Skyrim_transition
+        # Skyrim transition
         source_skyrim_transition_lua = resource_path("scripts/elden_ring/Skyrim_transition.lua")
         destination_skyrim_transition_lua = os.path.join(install_dir_elden_ring, "mods", "arrow to the knee 1.0", "Skyrim_transition.lua")
         

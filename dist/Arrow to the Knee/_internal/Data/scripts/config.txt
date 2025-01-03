@@ -1,0 +1,23 @@
+# config.txt
+[General]
+ModName=Arrow to the Knee
+Version=1.0
+Author=Your Name
+
+[Quest]
+QuestName=Arrow in the Knee
+Objective=Complete the quest "Arrow in the Knee" in Skyrim to unlock the next stage.
+
+[MainQuest]
+QuestID=000361E2
+CompletionStage=200
+
+[Settings]
+EnableTeleport=True
+EnableSoundEffect=True
+
+[Paths]
+ArrowSound=Data/Music/arrow to the knee 1.0/arrow_to_knee.mp3
+EldenRingSavePath=D:\Program Files (x86)\Steam\steamapps\common\ELDEN RING\saves
+SkyrimSavePath=C:\Program Files (x86)\Steam\steamapps\common\Skyrim\saves
+

@@ -3,6 +3,10 @@ import shutil
 import tkinter as tk
 from tkinter import messagebox
 import winreg
+import logging
+
+# Configure logging
+logging.basicConfig(filename='uninstaller_log.txt', level=logging.DEBUG, format='%(asctime)s - %(asctime)s - %(levelname)s - %(message)s')
 
 def find_steam_library():
     try:
@@ -19,7 +23,7 @@ def find_steam_library():
                         return os.path.join(path, "steamapps", "common")
         return os.path.join(steam_path, "steamapps", "common")
     except Exception as e:
-        print(f"Error finding Steam library: {e}")
+        logging.error(f"Error finding Steam library: {e}")
         return None
 
 def find_game_directory(game_name):
@@ -34,8 +38,12 @@ def remove_path(path):
     if os.path.exists(path):
         if os.path.isfile(path) or os.path.islink(path):
             os.remove(path)
+            logging.debug(f'Removed file: {path}')
         elif os.path.isdir(path):
             shutil.rmtree(path)
+            logging.debug(f'Removed directory: {path}')
+    else:
+        logging.debug(f'File or directory not found: {path}')
 
 def main():
     skyrim_dir = find_game_directory("Skyrim")
@@ -47,10 +55,14 @@ def main():
             # Define paths to the files and directories to be removed
             mod_folder_elden_ring = os.path.join(elden_ring_mods_dir, "arrow to the knee 1.0")
             esp_file_skyrim = os.path.join(skyrim_dir, "Data", "EldenRingArrowInTheKnee.esp")
+            config_file_skyrim = os.path.join(skyrim_dir, "Data", "config.txt")
+            music_folder_skyrim = os.path.join(skyrim_dir, "Data", "Music", "arrow to the knee 1.0")
 
             # Remove files and directories
             remove_path(mod_folder_elden_ring)
             remove_path(esp_file_skyrim)
+            remove_path(config_file_skyrim)
+            remove_path(music_folder_skyrim)
 
             messagebox.showinfo("Uninstallation", "Uninstallation completed successfully!")
             root.destroy()  # Close the Tkinter window

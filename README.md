@@ -23,12 +23,12 @@ This mod is a fun crossover between Elden Ring and Skyrim, where getting hit wit
 ### Steps to Install
 
 1. **Download the Mod Files**:
-   - Ensure you have the following files and directories:
-     Arrow to the Knee (1.0) Setup.exe
-     Arrow to the Knee Uninstaller.exe
+   - Ensure you have the following files:
+     - `Arrow to the Knee (1.0) Installer.exe`
+     - `Arrow to the Knee Uninstaller.exe`
 
 2. **Run the Installer**:
-   - Execute the `Arrow to the Knee Setup.exe` installer provided with the mod files.
+   - Execute the `Arrow to the Knee (1.0) Installer.exe` installer provided with the mod files.
    - Follow the prompts to select the install directories for Skyrim and Elden Ring.
 
 3. **Enable the Mod in Skyrim**:
@@ -39,6 +39,12 @@ This mod is a fun crossover between Elden Ring and Skyrim, where getting hit wit
 4. **Test the Mod**:
    - Start Skyrim and load a saved game or start a new game.
    - Verify that the mod is working by checking the new content (teleportation, quest tracking, etc.).
+
+### Uninstallation Instructions
+
+1. **Run the Uninstaller**:
+   - Execute the `Arrow to the Knee Uninstaller.exe` provided with the mod files.
+   - Follow the prompts to remove the mod files from both Skyrim and Elden Ring.
 
 ## Warning
 

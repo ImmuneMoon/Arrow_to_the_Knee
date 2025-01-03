@@ -11,8 +11,8 @@ function displayNotification(message)
         table.remove(notifications, 1)
     end
 
-    -- Show notification on screen (hypothetical function, replace with actual in-game notification code)
-    ShowMessageOnScreen(message)
+    -- Show notification on screen (replace with actual in-game notification code)
+    Game.ShowNotification(message, "bottom-left")
 end
 
 -- Function to process and update notifications on screen
@@ -20,7 +20,7 @@ function updateNotifications()
     -- Loop through notifications and update their display positions (bottom-left corner)
     for i, notification in ipairs(notifications) do
         -- Display each notification (replace with actual in-game UI update code)
-        DisplayNotificationAt(notification, i, "bottom-left")
+        Game.UpdateNotification(notification, i, "bottom-left")
     end
 end
 

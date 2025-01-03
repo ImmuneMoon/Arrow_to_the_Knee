@@ -1,25 +1,56 @@
 import os
+import shutil
 import tkinter as tk
 from tkinter import messagebox
+import winreg
 
-def remove_file(path):
+def find_steam_library():
+    try:
+        key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\WOW6432Node\Valve\Steam")
+        steam_path, _ = winreg.QueryValueEx(key, "InstallPath")
+        winreg.CloseKey(key)
+        
+        libraries_path = os.path.join(steam_path, "steamapps", "libraryfolders.vdf")
+        if os.path.exists(libraries_path):
+            with open(libraries_path, 'r') as file:
+                for line in file:
+                    if "path" in line:
+                        path = line.split('"')[3]
+                        return os.path.join(path, "steamapps", "common")
+        return os.path.join(steam_path, "steamapps", "common")
+    except Exception as e:
+        print(f"Error finding Steam library: {e}")
+        return None
+
+def find_game_directory(game_name):
+    steam_library_path = find_steam_library()
+    if steam_library_path:
+        game_path = os.path.join(steam_library_path, game_name)
+        if os.path.exists(game_path):
+            return game_path
+    return None
+
+def remove_path(path):
     if os.path.exists(path):
-        os.remove(path)
+        if os.path.isfile(path) or os.path.islink(path):
+            os.remove(path)
+        elif os.path.isdir(path):
+            shutil.rmtree(path)
 
 def main():
-    skyrim_dir = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim"
-    elden_ring_dir = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\ELDEN RING"
+    skyrim_dir = find_game_directory("Skyrim")
+    elden_ring_mods_dir = os.path.join(find_game_directory("ELDEN RING"), "mods")
 
     def uninstall():
         confirm = messagebox.askyesno("Uninstall", "Do you want to uninstall the mod and remove the files?")
         if confirm:
-            # Define paths to the files to be removed
-            mod_file_elden_ring = os.path.join(elden_ring_dir, "mods", "arrow to the knee 1.0")
+            # Define paths to the files and directories to be removed
+            mod_folder_elden_ring = os.path.join(elden_ring_mods_dir, "arrow to the knee 1.0")
             esp_file_skyrim = os.path.join(skyrim_dir, "Data", "EldenRingArrowInTheKnee.esp")
 
-            # Remove files
-            remove_file(mod_file_elden_ring)
-            remove_file(esp_file_skyrim)
+            # Remove files and directories
+            remove_path(mod_folder_elden_ring)
+            remove_path(esp_file_skyrim)
 
             messagebox.showinfo("Uninstallation", "Uninstallation completed successfully!")
             root.destroy()  # Close the Tkinter window

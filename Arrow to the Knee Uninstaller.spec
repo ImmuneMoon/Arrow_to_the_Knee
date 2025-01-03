@@ -5,7 +5,7 @@ a = Analysis(
     ['uninstall.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('Data', 'Data'), ('audio', 'audio'), ('Data/scripts', 'scripts')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -35,4 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['E:\\Files\\elden ring - arrow to the knee mod\\Arrow_to_the_Knee\\icon.ico'],
 )

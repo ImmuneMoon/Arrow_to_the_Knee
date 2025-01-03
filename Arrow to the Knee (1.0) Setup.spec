@@ -2,10 +2,10 @@
 
 
 a = Analysis(
-    ['setup.py'],
+    ['installer.py'],
     pathex=[],
     binaries=[],
-    datas=[('Data', 'Data'), ('audio', 'audio'), ('Data/scripts', 'scripts')],
+    datas=[('Data', 'Data'), ('audio', 'audio'), ('scripts/elden_ring', 'scripts/elden_ring'), ('scripts/skyrim_LE', 'scripts/skyrim_LE')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

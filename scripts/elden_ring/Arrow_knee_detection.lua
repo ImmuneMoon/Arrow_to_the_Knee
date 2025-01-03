@@ -52,6 +52,7 @@ function isSpecialProjectile(projectile)
     return id == 007 or id == 008  -- Include other special projectile IDs as needed
 end
 
+-- Placeholder values for knee detection
 function isKneeHit(hitLocation)
     local leftKneeRegionMin = { x = 0.4, y = 0.3, z = 0.4 }
     local leftKneeRegionMax = { x = 0.6, y = 0.5, z = 0.6 }

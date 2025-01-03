@@ -1,0 +1,4 @@
+2025-01-03 05:17:41,539 - 2025-01-03 05:17:41,539 - DEBUG - Removed directory: D:\\Program Files (x86)\\Steam\steamapps\common\ELDEN RING\mods\arrow to the knee 1.0
+2025-01-03 05:17:41,540 - 2025-01-03 05:17:41,540 - DEBUG - Removed file: D:\\Program Files (x86)\\Steam\steamapps\common\Skyrim\Data\EldenRingArrowInTheKnee.esp
+2025-01-03 05:17:41,540 - 2025-01-03 05:17:41,540 - DEBUG - Removed file: D:\\Program Files (x86)\\Steam\steamapps\common\Skyrim\Data\config.txt
+2025-01-03 05:17:41,541 - 2025-01-03 05:17:41,541 - DEBUG - Removed directory: D:\\Program Files (x86)\\Steam\steamapps\common\Skyrim\Data\Music\arrow to the knee 1.0

@@ -18,3 +18,7 @@ pyinstaller installer_and_uninstaller.spec
 pyinstaller [insert filename.spec]
 
 spec file needs to be in the parent directory with the .py install script**
+
+lua compile command line for making .luac files form .lua files:
+
+luac -o arrow_knee_detection.luac arrow_knee_detection.lua
